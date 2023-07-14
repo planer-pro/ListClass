@@ -1,20 +1,65 @@
-class List
-{
-public:
-  byte length;
-  byte data[256];
 
-  void append(byte item)
+template <typename T>
+
+class Array
+{
+private:
+  T *elements;
+  int count;
+  int maxSize;
+
+public:
+  Array(int size = 20)
   {
-    if (length < 256)
-      data[length++] = item;
+    count = 0;
+    maxSize = size;
+    elements = new T[maxSize];
   }
 
-  void remove(byte index)
+  ~Array()
   {
-    if (index >= length)
-      return;
-    memmove(&data[index], &data[index + 1], length - index - 1);
-    length--;
+    delete[] elements;
+  }
+
+  bool addElement(T newElement)
+  {
+    if (count < maxSize)
+    {
+      elements[count] = newElement;
+      count++;
+      return true;
+    }
+    return false;
+  }
+
+  bool removeElement(int index)
+  {
+    if (index >= 0 && index < count)
+    {
+      for (int i = index; i < count - 1; i++)
+      {
+        elements[i] = elements[i + 1];
+      }
+      count--;
+      return true;
+    }
+    return false;
+  }
+
+  void printArray()
+  {
+    for (int i = 0; i < count; i++)
+    {
+      Serial.println(elements[i]);
+    }
+  }
+
+  T getElementByIdx(int index)
+  {
+    if (index >= 0 && index < count)
+    {
+      return elements[index];
+    }
+    return T();
   }
 };
