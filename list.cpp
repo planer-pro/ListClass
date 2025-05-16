@@ -63,4 +63,9 @@ public:
     }
     return T();
   }
+
+  int getElementCount()
+  {
+    return count;
+  }
 };
